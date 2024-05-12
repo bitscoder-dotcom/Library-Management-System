@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Objects;
 
+
 @Controller
 @AllArgsConstructor
 @RequestMapping("/lms/v1/auth")
@@ -35,7 +36,7 @@ public class AuthController {
         UserRegistrationRequest.Response response = authService.register(request);
         if (response.getMessage().equals("User registered successfully")) {
             redirectAttributes.addFlashAttribute("message", response.getMessage());
-            return "redirect:/lgsApp/v1/auth/signIn";
+            return "redirect:/lms/v1/auth/signIn";
         } else {
             redirectAttributes.addFlashAttribute("message", response.getMessage());
             return "redirect:/registrationFailure";
@@ -50,18 +51,36 @@ public class AuthController {
 
     @PostMapping("/signIn")
     public String signIn(@ModelAttribute SignInRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-        try {
-            SignInRequest.Response apiResponse = authService.signIn(request);
 
-            Cookie cookie = new Cookie("token", apiResponse.getToken());
+        ResponseEntity<ApiResponse<SignInRequest.Response>> apiResponse = authService.signIn(request);
+        if (apiResponse.getStatusCode() == HttpStatus.OK) {
+
+            Cookie cookie = new Cookie("token", Objects.requireNonNull(apiResponse.getBody()).getData().getToken());
             cookie.setHttpOnly(true);
 
             response.addCookie(cookie);
 
-            return "redirect:/lgsApp/v1/auth/2fa";
-        } catch (BadCredentialsException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/error";
+            return "success";
+        } else  {
+            redirectAttributes.addFlashAttribute("error", Objects.requireNonNull(apiResponse.getBody()).getMessage());
+            return "redirect:error";
         }
     }
+
+//    @PostMapping("/signIn")
+//    public String signIn(@ModelAttribute SignInRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+//        ResponseEntity<ApiResponse<SignInRequest.Response>> apiResponse = authService.signIn(request);
+//        if (apiResponse.getStatusCode() == HttpStatus.OK) {
+//            // Create a new cookie
+//            Cookie cookie = new Cookie("token", Objects.requireNonNull(apiResponse.getBody()).getData().getToken());
+//            cookie.setHttpOnly(true);
+//            // Add the cookie to the response
+//            response.addCookie(cookie);
+//            // Redirect to the 2FA page
+//            return "redirect:/lgsApp/v1/auth/2fa";
+//        } else {
+//            redirectAttributes.addFlashAttribute("error", Objects.requireNonNull(apiResponse.getBody()).getMessage());
+//            return "redirect:/error";
+//        }
+//    }
 }

@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body p-4 p-sm-5">
                     <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
-                    <form th:action="@{/register}" th:object="${userRegistrationRequest}" method="post">
+                    <form th:action="@{/lms/v1/auth/register}" th:object="${userRegistrationRequest}" method="post">
                         <div class="form-floating mb-3">
                             <input type="text" th:field="*{name}" class="form-control" id="floatingInputUsername" placeholder="myusername" required autofocus>
                             <label for="floatingInputUsername">Username</label>
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Confirm Password">
+                            <input type="password" th:field="*{confirmPassword}" class="form-control" id="floatingPasswordConfirm" placeholder="Confirm Password">
                             <label for="floatingPasswordConfirm">Confirm Password</label>
                         </div>
 

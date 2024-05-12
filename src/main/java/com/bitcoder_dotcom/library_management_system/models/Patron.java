@@ -20,7 +20,7 @@ public class Patron extends User{
     @OneToMany(mappedBy = "user")
     private List<Book> books;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "patron")
     private List<Borrow> borrows;
 
     private boolean withBorrowedBook = false;

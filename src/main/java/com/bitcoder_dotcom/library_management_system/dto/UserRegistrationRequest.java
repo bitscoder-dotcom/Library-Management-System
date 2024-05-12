@@ -19,6 +19,7 @@ public class UserRegistrationRequest {
     @Email(message = "Not a valid email")
     private String email;
     private String password;
+    private String confirmPassword;
     private Roles role;
 
     @Getter

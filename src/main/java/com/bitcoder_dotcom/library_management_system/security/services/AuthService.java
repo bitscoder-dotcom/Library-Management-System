@@ -71,6 +71,12 @@ public class AuthService {
             );
         }
 
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Password and Confirm Password do not match!"
+            );
+        }
+
         User user;
         if (request.getRole() == Roles.LIBRARIAN) {
             user = new Librarian();
@@ -103,7 +109,7 @@ public class AuthService {
         return response;
     }
 
-    public SignInRequest.Response signIn(SignInRequest request) {
+    public ResponseEntity<ApiResponse<SignInRequest.Response>> signIn(SignInRequest request) {
         log.info("SignIn method called with email: {}", request.getEmail());
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -130,7 +136,7 @@ public class AuthService {
                     jwtUtils.getJwtExpirationDate()
             );
 
-            return response;
+            return createSuccessResponse("Login successful",response);
         } catch (BadCredentialsException e) {
             log.info("Invalid email or password for email: {}", request.getEmail());
             throw new BadCredentialsException("Invalid email or password");

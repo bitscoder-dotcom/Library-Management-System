@@ -1,7 +1,8 @@
 package com.bitcoder_dotcom.library_management_system.security;
 
-import com.bitcoderdotcom.librarymanagementsystem.security.jwt.AuthTokenFilter;
-import com.bitcoderdotcom.librarymanagementsystem.security.services.UserDetailsServiceImpl;
+import com.bitcoder_dotcom.library_management_system.config.CustomAuthenticationSuccessHandler;
+import com.bitcoder_dotcom.library_management_system.security.jwt.AuthTokenFilter;
+import com.bitcoder_dotcom.library_management_system.security.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -78,18 +79,18 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .headers().frameOptions().disable()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/lms/v1/auth/**", "/h2-console/**").permitAll()
-
+                .requestMatchers("/lms/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                        .successHandler(new CustomAuthenticationSuccessHandler());
 
-        http.headers().frameOptions().sameOrigin()
-                .and()
-                .authenticationProvider(authenticationProvider())
+        http.authenticationProvider(authenticationProvider())
                 .addFilterAfter(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
