@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management System</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center my-4">Library Management System</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Book Management</h2>
+            <ul class="list-unstyled">
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-book"></i> <a href="/api/books" class="text-white">Retrieve all books</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-search"></i> <a href="#" class="text-white">Retrieve a book by ID</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <a href="/lms/v1/book/add" class="text-white">Add a new book</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-edit"></i> <a href="#" class="text-white">Update a book's information</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-trash"></i> <a href="#" class="text-white">Remove a book</a></button></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>Patron Management</h2>
+            <ul class="list-unstyled">
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-users"></i> <a href="/api/patrons" class="text-white">Retrieve all patrons</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-search"></i> <a href="#" class="text-white">Retrieve a patron by ID</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> <a href="/api/patrons" class="text-white">Add a new patron</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-edit"></i> <a href="#" class="text-white">Update a patron's information</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-times"></i> <a href="#" class="text-white">Remove a patron</a></button></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>Borrowing</h2>
+            <ul class="list-unstyled">
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-hand-holding"></i> <a href="#" class="text-white">Borrow a book</a></button></li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-undo"></i> <a href="#" class="text-white">Return a borrowed book</a></button></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Add Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

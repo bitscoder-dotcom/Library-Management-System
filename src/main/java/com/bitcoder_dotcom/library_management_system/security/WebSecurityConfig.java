@@ -84,11 +84,10 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/lms/v1/auth/**").permitAll()
+                .requestMatchers("/lms/v1/auth/**", "/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                        .successHandler(new CustomAuthenticationSuccessHandler());
+                .formLogin();
 
         http.authenticationProvider(authenticationProvider())
                 .addFilterAfter(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
