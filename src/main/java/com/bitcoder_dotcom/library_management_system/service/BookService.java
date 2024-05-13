@@ -8,5 +8,5 @@ import java.security.Principal;
 
 public interface BookService {
 
-    public ResponseEntity<ApiResponse<BookDto.Response>> addNewBookToLibrary(BookDto bookDto, Principal principal);
+    ResponseEntity<ApiResponse<BookDto.Response>> addNewBookToLibrary(BookDto bookDto, Principal principal);
 }

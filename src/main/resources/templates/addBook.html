@@ -1,92 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Add New Book</title>
-    <!-- Add Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: #007bff;
-            background: linear-gradient(to right, #0062E6, #33AEFF);
-        }
-        .container {
-            max-width: 600px;
-            margin-top: 50px;
-        }
-        .form-control {
-            margin-bottom: 10px;
-        }
-        .btn-primary {
-            font-size: 0.9rem;
-            letter-spacing: 0.05rem;
-            padding: 0.75rem 1rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Add New Book</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #007bff;
+      background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+    }
+    .form-control {
+      margin-bottom: 10px;
+    }
+    .btn-primary {
+      font-size: 0.9rem;
+      letter-spacing: 0.05rem;
+      padding: 0.75rem 1rem;
+    }
+  </style>
 </head>
 <body>
+<div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 20px; right: 20px;">Return to User Page</a>
 <div class="container">
-    <h1 class="text-center mb-5 fw-light fs-5">Add New Book</h1>
-    <form th:action="@{/lms/v1/book/add}" th:object="${bookDto}" method="post">
-        <input type="text" th:field="*{title}" class="form-control" placeholder="Title">
-        <input type="text" th:field="*{author}" class="form-control" placeholder="Author">
-        <input type="text" th:field="*{isbn}" class="form-control" placeholder="ISBN">
-        <input type="text" th:field="*{genre}" class="form-control" placeholder="Genre">
-        <input type="number" th:field="*{quantity}" class="form-control" placeholder="Quantity">
-        <div class="d-grid mb-2">
-            <input type="submit" value="Add Book" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase">
-        </div>
-    </form>
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Book Added Successfully</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="bookDetails">
-                    <!-- Book details will be added here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+  <h1 class="text-center mb-5 fw-light fs-5">Add New Book</h1>
+  <form id="addBookForm" action="/lms/v1/book/add" method="post">
+    <input type="text" name="title" class="form-control" placeholder="Title">
+    <input type="text" name="author" class="form-control" placeholder="Author">
+    <input type="text" name="isbn" class="form-control" placeholder="ISBN">
+    <select name="genre" class="form-control">
+      <option value="">Select Genre</option>
+      <option value="DRAMA">Drama</option>
+      <option value="FICTION">Fiction</option>
+      <option value="ACTION">Action</option>
+      <option value="ROMANCE">Romance</option>
+      <option value="SCI_FI">Sci-Fi</option>
+      <option value="WESTERN">Western</option>
+      <option value="HISTORY">History</option>
+      <option value="CIVIL_ENGINEERING">Civil Engineering</option>
+      <option value="JAVA">Java</option>
+      <option value="PYTHON">Python</option>
+      <option value="SOFTWARE_PROGRAMMING">Software Programming</option>
+      <option value="RELIGION">Religion</option>
+    </select>
+    <input type="date" name="publicationYear" class="form-control" placeholder="Publication Year">
+    <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+    <div class="d-grid mb-2">
+      <input type="submit" value="Add Book" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase">
     </div>
+  </form>
 </div>
 <!-- Add Bootstrap JS and jQuery -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-    // Assuming you are using jQuery and ajax to submit the form
-    $('#addBookForm').on('submit', function(e) {
-        e.preventDefault();
-
-        $.ajax({
-            url: '/lms/v1/book/add',
-            type: 'post',
-            data: $(this).serialize(),
-            success: function(response) {
-                // Show the modal with the book details
-                $('#bookDetails').html(`
-                    <p>Title: ${response.title}</p>
-                    <p>Author: ${response.author}</p>
-                    <p>ISBN: ${response.isbn}</p>
-                    <p>Genre: ${response.genre}</p>
-                    <p>Quantity: ${response.quantity}</p>
-                `);
-                $('#successModal').modal('show');
-
-                // Clear the form fields
-                $('#addBookForm').trigger('reset');
-            },
-            error: function(error) {
-                // Handle error
-            }
-        });
-    });
-</script>
 </body>
 </html>

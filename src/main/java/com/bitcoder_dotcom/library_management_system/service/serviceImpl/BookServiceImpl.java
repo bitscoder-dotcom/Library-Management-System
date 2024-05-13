@@ -16,10 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.beans.FeatureDescriptor;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -34,6 +36,7 @@ public class BookServiceImpl implements BookService {
     private final BorrowRepository borrowRepository;
 
     @Override
+//    @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<ApiResponse<BookDto.Response>> addNewBookToLibrary(BookDto bookDto, Principal principal) {
         log.info("Inserting book with title: {}", bookDto.getTitle());
         User user = userRepository.findByEmail(principal.getName())
@@ -42,6 +45,7 @@ public class BookServiceImpl implements BookService {
             throw new UnauthorizedException("Only a Librarian can insert a book");
         }
         Book book = convertDtoToEntity(bookDto, user);
+        book.setPublicationYear(bookDto.getPublicationYear());
         bookRepository.save(book);
         BookDto.Response bookResponse = convertEntityToDto(book);
         ApiResponse<BookDto.Response> apiResponse = new ApiResponse<>(
@@ -62,6 +66,7 @@ public class BookServiceImpl implements BookService {
         bookResponse.setAuthor(book.getAuthor());
         bookResponse.setIsbn(book.getIsbn());
         bookResponse.setGenre(book.getGenre());
+        bookResponse.setPublicationYear(book.getPublicationYear());
         bookResponse.setQuantity(book.getQuantity());
         return bookResponse;
     }
@@ -74,6 +79,7 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(bookDto.getIsbn());
         book.setGenre(bookDto.getGenre());
         book.setQuantity(bookDto.getQuantity());
+        book.setPublicationYear(bookDto.getPublicationYear());
         book.setUser(user);
         return book;
     }

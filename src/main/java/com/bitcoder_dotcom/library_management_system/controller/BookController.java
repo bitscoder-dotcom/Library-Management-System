@@ -3,48 +3,75 @@ package com.bitcoder_dotcom.library_management_system.controller;
 import com.bitcoder_dotcom.library_management_system.dto.ApiResponse;
 import com.bitcoder_dotcom.library_management_system.dto.BookDto;
 import com.bitcoder_dotcom.library_management_system.service.BookService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
+;import java.security.Principal;
+import java.util.Objects;
 
-@RestController
+@Controller
 @RequestMapping("/lms/v1/book")
 @AllArgsConstructor
+@Slf4j
 public class BookController {
 
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<BookDto.Response>> addNewBook(@ModelAttribute BookDto bookDto, Principal principal) {
-        if (principal == null) {
-            // The user is not authenticated, return an error response
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ModelAndView addNewBookToLibrary(@ModelAttribute BookDto bookDto, RedirectAttributes redirectAttributes, Principal principal) throws JsonProcessingException {
+        ApiResponse<BookDto.Response> response = bookService.addNewBookToLibrary(bookDto, principal).getBody();
+        ModelAndView modelAndView = new ModelAndView();
+        if (response.getMessage().equals("Book added successfully")) {
+            // Modify the success message
+            String successMessage = "Book with BookId " + response.getData().getId() + ", with Title " + response.getData().getTitle() +
+                    " inserted successfully to " + bookDto.getGenre() + " shelve by Librarian " + principal.getName();
 
-        // The user is authenticated, proceed with adding the book
-        return bookService.addNewBookToLibrary(bookDto, principal);
+            // Convert the book to a JSON string
+            ObjectMapper objectMapper = new ObjectMapper();
+            String bookJson = objectMapper.writeValueAsString(response.getData());
+
+            redirectAttributes.addFlashAttribute("book", bookJson);
+            modelAndView.addObject("successMessage", successMessage);
+            modelAndView.setViewName("redirect:/lms/v1/book/bookDetails");
+        } else {
+            // handle error
+            modelAndView.addObject("errorMessage", "An error occurred: " + response.getMessage());
+            modelAndView.setViewName("addBook");
+        }
+        return modelAndView;
     }
 
-//    @PostMapping("/add")
-//    public ResponseEntity<BookDto> addNewBook(@ModelAttribute BookDto bookDto, Principal principal) {
-//        if (principal == null) {
-//            // The user is not authenticated, return an error response
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//
-//        // The user is authenticated, proceed with adding the book
-//        BookDto addedBook = bookService.addNewBookToLibrary(bookDto, principal);
-//        return ResponseEntity.ok(addedBook);
-//    }
 
-    @GetMapping("/add")
+    @GetMapping("/addBook")
     public String showAddBookPage(Model model) {
+        log.info("Received request to show add book page");
         model.addAttribute("bookDto", new BookDto());
         return "addBook";
     }
+
+    @GetMapping("/userPage")
+    public String showUserPage() {
+        log.info("Received request to show user page");
+        return "userPage";
+    }
+
+    @GetMapping("/bookDetails")
+    public String showBookDetails(@ModelAttribute("book") String bookJson, Model model) throws JsonProcessingException {
+        // Convert the JSON string to a BookDto.Response object
+        ObjectMapper objectMapper = new ObjectMapper();
+        BookDto.Response book = objectMapper.readValue(bookJson, BookDto.Response.class);
+
+        model.addAttribute("book", book);
+        return "bookDetails";
+    }
+
 }

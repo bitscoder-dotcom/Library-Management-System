@@ -1,6 +1,5 @@
 package com.bitcoder_dotcom.library_management_system.security;
 
-import com.bitcoder_dotcom.library_management_system.config.CustomAuthenticationSuccessHandler;
 import com.bitcoder_dotcom.library_management_system.security.jwt.AuthTokenFilter;
 import com.bitcoder_dotcom.library_management_system.security.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
