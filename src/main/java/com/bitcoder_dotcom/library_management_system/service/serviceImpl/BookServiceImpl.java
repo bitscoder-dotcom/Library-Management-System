@@ -80,6 +80,24 @@ public class BookServiceImpl implements BookService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @Override
+    public ResponseEntity<ApiResponse<BookDto.Response>> getBookById(String id, Principal principal) {
+        log.info("Fetching book with id: {}", id);
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", principal.getName()));
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
+        BookDto.Response bookResponse = convertEntityToDto(book);
+        ApiResponse<BookDto.Response> apiResponse = new ApiResponse<>(
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                true,
+                "Fetched book with id: " + id + " for user: " + user.getName(),
+                bookResponse
+        );
+        log.info("Fetched book with id: {}", id);
+        return ResponseEntity.ok(apiResponse);
+    }
 
     private BookDto.Response convertEntityToDto(Book book) {
         BookDto.Response bookResponse = new BookDto.Response();

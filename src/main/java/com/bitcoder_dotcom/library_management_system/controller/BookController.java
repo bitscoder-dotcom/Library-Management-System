@@ -70,10 +70,25 @@ public class BookController {
 
     @GetMapping("/books")
     public String showBooksPage(Model model, Principal principal) {
+        log.info("Received request to show lists of book page");
         ResponseEntity<ApiResponse<List<BookDto.Response>>> response = bookService.getAllBooks(principal);
         if (response.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("books", response.getBody().getData());
             return "books";
+        } else {
+            // handle error
+            model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "errorPage"; // replace with your error page
+        }
+    }
+
+    @GetMapping("/book/{id}")
+    public String showBookPage(@PathVariable String id, Model model, Principal principal) {
+        log.info("Received request to show book by id page");
+        ResponseEntity<ApiResponse<BookDto.Response>> response = bookService.getBookById(id, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("book", response.getBody().getData());
+            return "book";
         } else {
             // handle error
             model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());

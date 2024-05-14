@@ -11,4 +11,5 @@ public interface BookService {
 
     ResponseEntity<ApiResponse<BookDto.Response>> addNewBookToLibrary(BookDto bookDto, Principal principal);
     ResponseEntity<ApiResponse<List<BookDto.Response>>> getAllBooks(Principal principal);
+    ResponseEntity<ApiResponse<BookDto.Response>> getBookById(String id, Principal principal);
 }

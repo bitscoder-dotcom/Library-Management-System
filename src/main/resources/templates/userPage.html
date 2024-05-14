@@ -16,7 +16,12 @@
             <h2>Book Management</h2>
             <ul class="list-unstyled">
                 <li><button class="btn btn-primary btn-block"><i class="fas fa-book"></i> <a href="/lms/v1/book/books" class="text-white">Retrieve all books</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-search"></i> <a href="#" class="text-white">Retrieve a book by ID</a></button></li>
+                <li>
+                    <form id="retrieveBookForm" class="form-inline">
+                        <input type="text" id="bookId" name="bookId" placeholder="Enter book ID" class="form-control mr-2">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Retrieve a book by ID</button>
+                    </form>
+                </li>
                 <li><button class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <a href="/lms/v1/book/addBook" class="text-white">Add a new book</a></button></li>
                 <li><button class="btn btn-primary btn-block"><i class="fas fa-edit"></i> <a href="#" class="text-white">Update a book's information</a></button></li>
                 <li><button class="btn btn-primary btn-block"><i class="fas fa-trash"></i> <a href="#" class="text-white">Remove a book</a></button></li>
@@ -44,5 +49,12 @@
 <!-- Add Bootstrap JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('retrieveBookForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var bookId = document.getElementById('bookId').value;
+        window.location.href = '/lms/v1/book/book/' + bookId;
+    });
+</script>
 </body>
 </html>

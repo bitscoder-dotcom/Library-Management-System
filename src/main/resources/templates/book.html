@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Book Details</title>
@@ -7,8 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 90px; left: 20px;">Return to User Page</a>
+<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 50px; left: 20px;">Return to User Page</a>
 <div class="container">
     <h1 class="text-center mb-5">Book Details</h1>
     <div class="card">
@@ -19,7 +18,6 @@
             <p class="card-text"><strong>Genre:</strong> <span th:text="${book.genre}"></span></p>
             <p class="card-text"><strong>Publication Year:</strong> <span th:text="${book.publicationYear}"></span></p>
             <p class="card-text"><strong>Quantity:</strong> <span th:text="${book.quantity}"></span></p>
-            <a href="/lms/v1/book/addBook" class="btn btn-primary">Okay</a>
         </div>
     </div>
 </div>
