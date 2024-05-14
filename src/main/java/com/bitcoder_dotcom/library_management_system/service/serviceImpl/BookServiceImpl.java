@@ -23,7 +23,9 @@ import java.beans.FeatureDescriptor;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -36,7 +38,6 @@ public class BookServiceImpl implements BookService {
     private final BorrowRepository borrowRepository;
 
     @Override
-//    @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<ApiResponse<BookDto.Response>> addNewBookToLibrary(BookDto bookDto, Principal principal) {
         log.info("Inserting book with title: {}", bookDto.getTitle());
         User user = userRepository.findByEmail(principal.getName())
@@ -58,6 +59,27 @@ public class BookServiceImpl implements BookService {
         log.info("Book inserted successfully with title: {}", bookDto.getTitle());
         return ResponseEntity.ok(apiResponse);
     }
+
+    @Override
+    public ResponseEntity<ApiResponse<List<BookDto.Response>>> getAllBooks(Principal principal) {
+        log.info("Fetching all books for user: {}", principal.getName());
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", principal.getName()));
+        List<Book> books = bookRepository.findAll();
+        List<BookDto.Response> bookResponses = books.stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+        ApiResponse<List<BookDto.Response>> apiResponse = new ApiResponse<>(
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                true,
+                "Fetched all books for user: " + user.getName(),
+                bookResponses
+        );
+        log.info("Fetched all books for user: {}", principal.getName());
+        return ResponseEntity.ok(apiResponse);
+    }
+
 
     private BookDto.Response convertEntityToDto(Book book) {
         BookDto.Response bookResponse = new BookDto.Response();

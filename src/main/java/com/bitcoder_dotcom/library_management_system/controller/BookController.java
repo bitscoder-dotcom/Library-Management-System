@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -65,5 +66,18 @@ public class BookController {
     public String showUserPage() {
         log.info("Received request to show user page");
         return "userPage";
+    }
+
+    @GetMapping("/books")
+    public String showBooksPage(Model model, Principal principal) {
+        ResponseEntity<ApiResponse<List<BookDto.Response>>> response = bookService.getAllBooks(principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("books", response.getBody().getData());
+            return "books";
+        } else {
+            // handle error
+            model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "errorPage"; // replace with your error page
+        }
     }
 }
