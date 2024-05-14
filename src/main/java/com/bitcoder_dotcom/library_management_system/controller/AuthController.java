@@ -65,21 +65,4 @@ public class AuthController {
             return "redirect:error";
         }
     }
-
-//    @PostMapping("/signIn")
-//    public String signIn(@ModelAttribute SignInRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-//        ResponseEntity<ApiResponse<SignInRequest.Response>> apiResponse = authService.signIn(request);
-//        if (apiResponse.getStatusCode() == HttpStatus.OK) {
-//            // Create a new cookie
-//            Cookie cookie = new Cookie("token", Objects.requireNonNull(apiResponse.getBody()).getData().getToken());
-//            cookie.setHttpOnly(true);
-//            // Add the cookie to the response
-//            response.addCookie(cookie);
-//            // Redirect to the 2FA page
-//            return "redirect:/lgsApp/v1/auth/2fa";
-//        } else {
-//            redirectAttributes.addFlashAttribute("error", Objects.requireNonNull(apiResponse.getBody()).getMessage());
-//            return "redirect:/error";
-//        }
-//    }
 }

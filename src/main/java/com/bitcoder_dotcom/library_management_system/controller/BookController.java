@@ -10,13 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-;import java.security.Principal;
+import java.security.Principal;
 import java.util.Objects;
+
 
 @Controller
 @RequestMapping("/lms/v1/book")
@@ -27,29 +30,29 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ModelAndView addNewBookToLibrary(@ModelAttribute BookDto bookDto, RedirectAttributes redirectAttributes, Principal principal) throws JsonProcessingException {
-        ApiResponse<BookDto.Response> response = bookService.addNewBookToLibrary(bookDto, principal).getBody();
-        ModelAndView modelAndView = new ModelAndView();
-        if (response.getMessage().equals("Book added successfully")) {
+    public String addNewBookToLibrary(@ModelAttribute BookDto bookDto, RedirectAttributes redirectAttributes, Principal principal) {
+        ResponseEntity<ApiResponse<BookDto.Response>> response = bookService.addNewBookToLibrary(bookDto, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
             // Modify the success message
-            String successMessage = "Book with BookId " + response.getData().getId() + ", with Title " + response.getData().getTitle() +
-                    " inserted successfully to " + bookDto.getGenre() + " shelve by Librarian " + principal.getName();
+            String successMessage = "Book with Title " + bookDto.getTitle() + "inserted successfully to " + bookDto.getGenre()
+                    + " shelve by Librarian " + principal.getName();
 
-            // Convert the book to a JSON string
-            ObjectMapper objectMapper = new ObjectMapper();
-            String bookJson = objectMapper.writeValueAsString(response.getData());
-
-            redirectAttributes.addFlashAttribute("book", bookJson);
-            modelAndView.addObject("successMessage", successMessage);
-            modelAndView.setViewName("redirect:/lms/v1/book/bookDetails");
+            redirectAttributes.addFlashAttribute("book", response.getBody().getData());
+            redirectAttributes.addFlashAttribute("successMessage", successMessage);
+            return "redirect:/lms/v1/book/bookDetails";
         } else {
             // handle error
-            modelAndView.addObject("errorMessage", "An error occurred: " + response.getMessage());
-            modelAndView.setViewName("addBook");
+            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "redirect:/lms/v1/book/addBook";
         }
-        return modelAndView;
     }
 
+    @GetMapping("/bookDetails")
+    public String showBookDetails(@ModelAttribute("book") BookDto.Response book, Model model) {
+        log.info("Received request to show book details page");
+        model.addAttribute("book", book);
+        return "bookDetails";
+    }
 
     @GetMapping("/addBook")
     public String showAddBookPage(Model model) {
@@ -63,15 +66,4 @@ public class BookController {
         log.info("Received request to show user page");
         return "userPage";
     }
-
-    @GetMapping("/bookDetails")
-    public String showBookDetails(@ModelAttribute("book") String bookJson, Model model) throws JsonProcessingException {
-        // Convert the JSON string to a BookDto.Response object
-        ObjectMapper objectMapper = new ObjectMapper();
-        BookDto.Response book = objectMapper.readValue(bookJson, BookDto.Response.class);
-
-        model.addAttribute("book", book);
-        return "bookDetails";
-    }
-
 }
