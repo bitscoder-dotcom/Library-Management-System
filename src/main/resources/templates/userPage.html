@@ -23,8 +23,13 @@
                     </form>
                 </li>
                 <li><button class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <a href="/lms/v1/book/addBook" class="text-white">Add a new book</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-edit"></i> <a href="#" class="text-white">Update a book's information</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-trash"></i> <a href="#" class="text-white">Remove a book</a></button></li>
+                <li>
+                    <form id="updateBookForm" class="form-inline">
+                        <input type="text" id="updateBookId" name="updateBookId" placeholder="Enter book ID" class="form-control mr-2">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i> Update a book's information</button>
+                    </form>
+                </li>
+                <li><button class="btn btn-primary btn-block"><i class="fas fa-trash"></i> <a href="/lms/v1/book/books" class="text-white">Remove a book</a></button></li>
             </ul>
         </div>
         <div class="col-md-4">
@@ -54,6 +59,11 @@
         event.preventDefault();
         var bookId = document.getElementById('bookId').value;
         window.location.href = '/lms/v1/book/book/' + bookId;
+    });
+    document.getElementById('updateBookForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var bookId = document.getElementById('updateBookId').value;
+        window.location.href = '/lms/v1/book/updateBook/' + bookId;
     });
 </script>
 </body>

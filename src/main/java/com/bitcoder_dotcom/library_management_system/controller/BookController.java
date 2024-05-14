@@ -78,7 +78,7 @@ public class BookController {
         } else {
             // handle error
             model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
-            return "errorPage"; // replace with your error page
+            return "errorPage";
         }
     }
 
@@ -92,7 +92,53 @@ public class BookController {
         } else {
             // handle error
             model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
-            return "errorPage"; // replace with your error page
+            return "errorPage";
+        }
+    }
+
+    @GetMapping("/updateBook/{id}")
+    public String showUpdateBookPage(@PathVariable String id, Model model, Principal principal) {
+        log.info("Received request to show update book page");
+        ResponseEntity<ApiResponse<BookDto.Response>> response = bookService.getBookById(id, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("bookDto", new BookDto());
+            model.addAttribute("book", response.getBody().getData());
+            return "updateBook";
+        } else {
+            // handle error
+            model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "errorPage";
+        }
+    }
+
+    @PostMapping("/updateBook/{id}")
+    public String updateBook(@PathVariable String id, @ModelAttribute BookDto bookRequest, RedirectAttributes redirectAttributes, Principal principal) {
+        log.info("Updating book with id: {}", id);
+        ResponseEntity<ApiResponse<BookDto.Response>> response = bookService.updateBook(id, bookRequest, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            redirectAttributes.addFlashAttribute("book", response.getBody().getData());
+            redirectAttributes.addFlashAttribute("successMessage", "Book details updated successfully");
+            return "redirect:/lms/v1/book/bookDetails";
+        } else {
+            // handle error
+            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "redirect:/lms/v1/book/updateBook/" + id;
+        }
+    }
+
+    @PostMapping("/removeBook/{id}")
+    public String removeBook(@PathVariable String id, RedirectAttributes redirectAttributes, Principal principal) {
+        log.info("Removing book with id: {}", id);
+        ResponseEntity<ApiResponse<BookDto.Response>> response = bookService.getBookById(id, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String bookTitle = response.getBody().getData().getTitle();
+            bookService.removeBook(id, principal);
+            redirectAttributes.addFlashAttribute("successMessage", "Book with title '" + bookTitle + "' has been successfully removed from the library");
+            return "redirect:/lms/v1/book/books";
+        } else {
+            // handle error
+            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "redirect:/lms/v1/book/removeBook/" + id;
         }
     }
 }

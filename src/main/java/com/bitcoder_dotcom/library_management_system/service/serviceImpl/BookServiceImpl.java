@@ -99,6 +99,58 @@ public class BookServiceImpl implements BookService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @Override
+    public ResponseEntity<ApiResponse<BookDto.Response>> updateBook(String id, BookDto bookRequest, Principal principal) {
+        log.info("Updating book with id: {}", id);
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", principal.getName()));
+        if (user.getRoles() != Roles.LIBRARIAN) {
+            throw new UnauthorizedException("Only a Librarian can update book details");
+        }
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
+        book.setTitle(bookRequest.getTitle());
+        book.setAuthor(bookRequest.getAuthor());
+        book.setIsbn(bookRequest.getIsbn());
+        book.setGenre(bookRequest.getGenre());
+        book.setQuantity(bookRequest.getQuantity());
+        book.setPublicationYear(bookRequest.getPublicationYear());
+        book.setUser(user);
+        bookRepository.save(book);
+        BookDto.Response bookResponse = convertEntityToDto(book);
+        ApiResponse<BookDto.Response> apiResponse = new ApiResponse<>(
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                true,
+                "Updated book with id: " + id + " for user: " + user.getName(),
+                bookResponse
+        );
+        log.info("Updated book with id: {}", id);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<String>> removeBook(String id, Principal principal) {
+        log.info("Removing book with id: {}", id);
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", principal.getName()));
+        if (user.getRoles() != Roles.LIBRARIAN) {
+            throw new UnauthorizedException("Only a Librarian can remove a book");
+        }
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
+        bookRepository.delete(book);
+        ApiResponse<String> apiResponse = new ApiResponse<>(
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                true,
+                "Removed book with id: " + id + " by user: " + user.getName(),
+                "Book removed successfully"
+        );
+        log.info("Removed book with id: {}", id);
+        return ResponseEntity.ok(apiResponse);
+    }
+
     private BookDto.Response convertEntityToDto(Book book) {
         BookDto.Response bookResponse = new BookDto.Response();
         bookResponse.setId(book.getId());

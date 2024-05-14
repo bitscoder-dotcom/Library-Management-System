@@ -30,10 +30,10 @@
 <div class="container">
   <h1 class="text-center mb-5 fw-light fs-5">Add New Book</h1>
   <form id="addBookForm" action="/lms/v1/book/add" method="post">
-    <input type="text" name="title" class="form-control" placeholder="Title">
-    <input type="text" name="author" class="form-control" placeholder="Author">
-    <input type="text" name="isbn" class="form-control" placeholder="ISBN">
-    <select name="genre" class="form-control">
+    <input type="text" name="title" class="form-control" placeholder="Title" required>
+    <input type="text" name="author" class="form-control" placeholder="Author" required>
+    <input type="text" name="isbn" class="form-control" placeholder="ISBN" required>
+    <select name="genre" class="form-control" required>
       <option value="">Select Genre</option>
       <option value="DRAMA">Drama</option>
       <option value="FICTION">Fiction</option>
@@ -48,8 +48,8 @@
       <option value="SOFTWARE_PROGRAMMING">Software Programming</option>
       <option value="RELIGION">Religion</option>
     </select>
-    <input type="date" name="publicationYear" class="form-control" placeholder="Publication Year">
-    <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+    <input type="date" name="publicationYear" class="form-control" placeholder="Publication Year" required>
+    <input type="number" name="quantity" class="form-control" placeholder="Quantity" required>
     <div class="d-grid mb-2">
       <input type="submit" value="Add Book" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase">
     </div>
