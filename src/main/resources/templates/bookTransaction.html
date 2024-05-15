@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Transaction</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex justify-content-center">
+    <a href="/lms/v1/book/books" class="btn btn-secondary">Return to All Books</a>
+</div>
+<div class="container">
+    <h1 class="text-center mb-3">Book Transaction</h1>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${alertMessage}" class="alert alert-warning" th:text="${alertMessage}"></div>
+
+    <form th:action="@{/lms/v1/book/borrowBook}" method="post">
+        <div class="form-group">
+            <label for="borrowBookId">Borrow a Book (Enter Book ID)</label>
+            <input type="text" class="form-control" id="borrowBookId" name="bookId">
+            <button type="submit" class="btn btn-primary">Borrow</button>
+        </div>
+    </form>
+
+    <form th:action="@{/lms/v1/book/returnBook}" method="post">
+        <div class="form-group">
+            <label for="returnBorrowId">Return a Book (Enter Borrow ID)</label>
+            <input type="text" class="form-control" id="returnBorrowId" name="borrowId">
+        </div>
+        <div class="form-group">
+            <label for="returnBookId">Enter Book ID</label>
+            <input type="text" class="form-control" id="returnBookId" name="bookId">
+        </div>
+        <button type="submit" class="btn btn-primary">Return</button>
+    </form>
+
+</div>
+<!-- Add Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

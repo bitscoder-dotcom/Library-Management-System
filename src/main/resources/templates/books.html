@@ -5,9 +5,16 @@
   <title>All Books</title>
   <!-- Add Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .action-buttons form {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
-<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 50px; left: 20px;">Return to User Page</a>
+<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 50px; left: 20px;">Go to User Page</a>
+<a href="/lms/v1/book/bookTransaction" class="btn btn-primary" style="position: absolute; top: 50px; right: 20px;">Return or Borrow a Book</a>
 <div class="container">
   <h1 class="text-center mb-5">All Books</h1>
   <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -33,9 +40,12 @@
       <td th:text="${book.genre}"></span></td>
       <td th:text="${book.publicationYear}"></td>
       <td th:text="${book.quantity}"></td>
-      <td>
+      <td class="action-buttons">
         <form th:action="@{/lms/v1/book/removeBook/{id}(id=${book.id})}" method="post">
           <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
+        <form th:action="@{/lms/v1/book/updateBook/{id}(id=${book.id})}" method="get">
+          <button type="submit" class="btn btn-primary">Modify</button>
         </form>
       </td>
     </tr>

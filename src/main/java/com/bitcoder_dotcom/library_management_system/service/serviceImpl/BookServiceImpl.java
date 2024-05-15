@@ -16,12 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.beans.FeatureDescriptor;
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -130,7 +128,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<String>> removeBook(String id, Principal principal) {
+    public void removeBook(String id, Principal principal) {
         log.info("Removing book with id: {}", id);
         User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", principal.getName()));
@@ -148,7 +146,7 @@ public class BookServiceImpl implements BookService {
                 "Book removed successfully"
         );
         log.info("Removed book with id: {}", id);
-        return ResponseEntity.ok(apiResponse);
+        ResponseEntity.ok(apiResponse);
     }
 
     private BookDto.Response convertEntityToDto(Book book) {

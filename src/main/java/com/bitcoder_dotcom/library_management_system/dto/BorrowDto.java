@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BorrowDto {
 
+    private String borrowId;
     private String patronId;
     private String bookId;
     private LocalDateTime borrowedAt;

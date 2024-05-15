@@ -13,5 +13,5 @@ public interface BookService {
     ResponseEntity<ApiResponse<List<BookDto.Response>>> getAllBooks(Principal principal);
     ResponseEntity<ApiResponse<BookDto.Response>> getBookById(String id, Principal principal);
     ResponseEntity<ApiResponse<BookDto.Response>> updateBook(String id, BookDto bookRequest, Principal principal);
-    ResponseEntity<ApiResponse<String>> removeBook(String id, Principal principal);
+    void removeBook(String id, Principal principal);
 }
