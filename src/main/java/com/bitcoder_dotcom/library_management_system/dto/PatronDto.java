@@ -11,11 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 public class PatronDto {
 
+    private String patronId;
     private String name;
     private String email;
     private String password;
     private Roles roles;
-    private List<Long> bookIds;
+    private List<String> bookIds;
 
     @Data
     @AllArgsConstructor
@@ -28,5 +29,18 @@ public class PatronDto {
         private Roles roles;
         private boolean withBorrowedBook;
         private List<String> bookIds;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DetailedResponse {
+
+        private String id;
+        private String name;
+        private String email;
+        private Roles roles;
+        private boolean withBorrowedBook;
+        private List<BookDto.Response> borrowedBooks;
     }
 }

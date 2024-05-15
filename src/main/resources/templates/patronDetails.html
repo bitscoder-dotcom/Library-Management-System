@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Patrons</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 50px; left: 20px;">Go to User Page</a>
+<div class="container">
+    <h1 class="text-center mb-5">Patron Details</h1>
+    <div th:if="${patron}">
+        <h2 th:text="${patron.name}"></h2>
+        <p><strong>Email:</strong> <span th:text="${patron.email}"></span></p>
+        <p><strong>Roles:</strong> <span th:text="${patron.roles}"></span></p>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Genre</th>
+                <th>Publication Year</th>
+                <th>Quantity</th>
+                <th>Borrowed At</th>
+            </tr>
+            </thead>
+            <tbody th:each="book : ${patron.borrowedBooks}">
+            <tr>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${book.genre}"></td>
+                <td th:text="${book.publicationYear}"></td>
+                <td th:text="${book.quantity}"></td>
+                <td th:text="${book.borrowedAt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${patron == null}">
+        <p>No patron details found.</p>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

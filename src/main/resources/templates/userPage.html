@@ -7,6 +7,40 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Add Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 960px;
+            margin-top: 50px;
+            border-radius: 15px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        .heading {
+            color: #6c757d;
+            border-bottom: 1px solid #6c757d;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #5F9EA0;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .form-inline {
+            margin-bottom: 10px;
+        }
+        .form-control {
+            border-radius: 0;
+            border: 2px solid #5F9EA0;
+        }
+        .list-unstyled {
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -15,38 +49,48 @@
         <div class="col-md-4">
             <h2>Book Management</h2>
             <ul class="list-unstyled">
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-book"></i> <a href="/lms/v1/book/books" class="text-white">Retrieve all books</a></button></li>
+                <button class="btn btn-custom btn-block"><i class="fas fa-book"></i> <a href="/lms/v1/book/books" class="text-white">Retrieve all books</a></button>
                 <li>
                     <form id="retrieveBookForm" class="form-inline">
                         <input type="text" id="bookId" name="bookId" placeholder="Enter book ID" class="form-control mr-2">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Retrieve a book by ID</button>
+                        <button type="submit" class="btn btn-custom"><i class="fas fa-search"></i> Retrieve a book by ID</button>
                     </form>
                 </li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <a href="/lms/v1/book/addBook" class="text-white">Add a new book</a></button></li>
+                <li><button class="btn btn-custom btn-block"><i class="fas fa-plus"></i> <a href="/lms/v1/book/addBook" class="text-white">Add a new book</a></button></li>
                 <li>
                     <form id="updateBookForm" class="form-inline">
                         <input type="text" id="updateBookId" name="updateBookId" placeholder="Enter book ID" class="form-control mr-2">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i> Update a book's information</button>
+                        <button type="submit" class="btn btn-custom"><i class="fas fa-edit"></i> Update a book's information</button>
                     </form>
                 </li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-trash"></i> <a href="/lms/v1/book/books" class="text-white">Remove a book</a></button></li>
+                <li><button class="btn btn-custom btn-block"><i class="fas fa-trash"></i> <a href="/lms/v1/book/books" class="text-white">Remove a book</a></button></li>
             </ul>
         </div>
         <div class="col-md-4">
             <h2>Patron Management</h2>
             <ul class="list-unstyled">
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-users"></i> <a href="/api/patrons" class="text-white">Retrieve all patrons</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-search"></i> <a href="#" class="text-white">Retrieve a patron by ID</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> <a href="/api/patrons" class="text-white">Add a new patron</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-edit"></i> <a href="#" class="text-white">Update a patron's information</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-user-times"></i> <a href="#" class="text-white">Remove a patron</a></button></li>
+                <button class="btn btn-custom btn-block"><i class="fas fa-users"></i> <a href="/lms/v1/patron/patrons" class="text-white">Retrieve all patrons</a></button>
+                <li>
+                    <form id="retrievePatronForm" class="form-inline">
+                        <input type="text" id="patronId" name="patronId" placeholder="Enter patron ID" class="form-control mr-2">
+                        <button type="submit" class="btn btn-custom"><i class="fas fa-search"></i> Retrieve a patron by ID</button>
+                    </form>
+                </li>
+                <li><button class="btn btn-custom btn-block"><i class="fas fa-user-plus"></i> <a href="/lms/v1/auth/register" class="text-white">Add a new patron</a></button></li>
+                <li>
+                    <form id="updatePatronForm" class="form-inline">
+                        <input type="text" id="updatePatronId" name="patronId" placeholder="Enter patron ID" class="form-control mr-2">
+                        <button type="submit" class="btn btn-custom"><i class="fas fa-user-edit"></i> Update a patron's information</button>
+                    </form>
+                </li>
+                <li><button class="btn btn-custom btn-block"><i class="fas fa-user-times"></i> <a href="/lms/v1/patron/deletePatron" class="text-white">Remove a patron</a></button></li>
             </ul>
         </div>
         <div class="col-md-4">
             <h2>Borrowing</h2>
             <ul class="list-unstyled">
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-hand-holding"></i> <a href="/lms/v1/book/bookTransaction" class="text-white">Borrow a book</a></button></li>
-                <li><button class="btn btn-primary btn-block"><i class="fas fa-undo"></i> <a href="/lms/v1/book/bookTransaction" class="text-white">Return a borrowed book</a></button></li>
+                <button class="btn btn-custom btn-block"><i class="fas fa-hand-holding"></i> <a href="/lms/v1/book/bookTransaction" class="text-white">Borrow a book</a></button>
+                <button class="btn btn-custom btn-block"><i class="fas fa-undo"></i> <a href="/lms/v1/book/bookTransaction" class="text-white">Return a borrowed book</a></button>
             </ul>
         </div>
     </div>
@@ -64,6 +108,16 @@
         event.preventDefault();
         var bookId = document.getElementById('updateBookId').value;
         window.location.href = '/lms/v1/book/updateBook/' + bookId;
+    });
+    document.getElementById('retrievePatronForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var patronId = document.getElementById('patronId').value;
+        window.location.href = '/lms/v1/patron/' + patronId;
+    });
+    document.getElementById('updatePatronForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var patronId = document.getElementById('updatePatronId').value;
+        window.location.href = '/lms/v1/patron/updatePatron/' + patronId;
     });
 </script>
 </body>

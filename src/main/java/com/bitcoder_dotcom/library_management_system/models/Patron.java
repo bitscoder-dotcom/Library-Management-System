@@ -1,5 +1,6 @@
 package com.bitcoder_dotcom.library_management_system.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,7 +21,7 @@ public class Patron extends User{
     @OneToMany(mappedBy = "user")
     private List<Book> books;
 
-    @OneToMany(mappedBy = "patron")
+    @OneToMany(mappedBy = "patron", cascade = CascadeType.ALL)
     private List<Borrow> borrows;
 
     private boolean withBorrowedBook = false;

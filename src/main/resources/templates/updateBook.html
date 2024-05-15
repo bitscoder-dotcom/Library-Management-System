@@ -7,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<a href="/lms/v1/book/userPage" class="btn btn-secondary" style="position: absolute; top: 50px; left: 20px;">Go to User Page</a>
 <div class="container">
     <h1 class="text-center my-4">Update Book</h1>
     <form th:action="@{/lms/v1/book/updateBook/{id}(id=${book.id})}" method="post">

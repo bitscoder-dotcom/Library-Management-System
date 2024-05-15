@@ -4,6 +4,7 @@ import com.bitcoder_dotcom.library_management_system.constant.Genre;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -32,6 +33,7 @@ public class BookDto {
         private Genre genre;
         private LocalDate publicationYear;
         private long quantity;
+        private LocalDateTime borrowedAt;
     }
 }
 
