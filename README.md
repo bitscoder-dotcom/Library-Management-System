@@ -55,7 +55,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Ijedibia Daniel
 
+## Image Descriptions
+![List of Books](C:\Users\Holmen Consult\OneDrive\Documents\Projects\Spring\library_management_system\src\main\resources\snapshots\List of books.png)
 
-!List of Books
-src/main/resources/snapshots/List%20of%20books.png
 
