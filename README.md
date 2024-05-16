@@ -53,11 +53,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Authors
 
-- Ijedibia Daniel
+- bitscoder-dotcom
 
 ## Image Descriptions
-![Home page](/src/main/resources/snapshotshome page.png "Home page")
-![List of Books](/src/main/resources/snapshots/List of books.png)
+![](/src/main/resources/snapshots/home page.png "Home page")
+![](/src/main/resources/snapshots/List of books.png)
 ![](/src/main/resources/snapshots/register.png "user registration page")
 ![](/src/main/resources/snapshots/sign in.png "user sign in")
 ![](/src/main/resources/snapshots/user page.png "user page")
