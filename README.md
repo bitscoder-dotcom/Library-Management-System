@@ -56,6 +56,18 @@ These instructions will get you a copy of the project up and running on your loc
 - Ijedibia Daniel
 
 ## Image Descriptions
-![List of Books](C:\Users\Holmen Consult\OneDrive\Documents\Projects\Spring\library_management_system\src\main\resources\snapshots\List of books.png)
+![Home page](\src\main\resources\snapshots\home page.png "Home page")
+![List of Books](\src\main\resources\snapshots\List of books.png)
+![](\src\main\resources\snapshots\register.png "user registration page")
+![](\src\main\resources\snapshots\sign in.png "user sign in")
+![](\src\main\resources\snapshots\user page.png "user page")
+![](\src\main\resources\snapshots\book details.png "Book details")
+![](\src\main\resources\snapshots\update patron.png "update patron page")
+![](\src\main\resources\snapshots\updated book.png "updated book")
+![](\src\main\resources\snapshots\all patrons.png "List of patrons")
+![](\src\main\resources\snapshots\delete patron.png "Delete patron")
 
+## Feedback
+- Your feedback is much appreciated. Your are free to modify this code, as far as you don't digress from the application scope. Lets communicate!!
+- https://twitter.com/bitscoder93
 
