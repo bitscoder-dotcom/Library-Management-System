@@ -39,19 +39,6 @@ public class PatronController {
         }
     }
 
-    @GetMapping("/{id}")
-    public String showPatronDetails(@PathVariable String id, Model model, Principal principal) {
-        ResponseEntity<ApiResponse<PatronDto.DetailedResponse>> response = patronService.getPatronById(id, principal);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            model.addAttribute("patron", response.getBody().getData());
-            return "patronDetails";
-        } else {
-            // handle error
-            model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
-            return "errorPage";
-        }
-    }
-
     @GetMapping("/updatePatron/{id}")
     public String showUpdatePatronPage(@PathVariable String id, Model model, Principal principal) {
         log.info("Received request to show update patron page");
@@ -74,11 +61,25 @@ public class PatronController {
         if (response.getStatusCode() == HttpStatus.OK) {
             redirectAttributes.addFlashAttribute("patron", response.getBody().getData());
             redirectAttributes.addFlashAttribute("successMessage", "Patron details updated successfully");
-            return "redirect:/lms/v1/patron/patronDetails";
+            return "redirect:/lms/v1/patron/patronDetails/" + id;
         } else {
             // handle error
             redirectAttributes.addFlashAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
             return "redirect:/lms/v1/patron/updatePatron/" + id;
+        }
+    }
+//    /lms/v1/patron/patronDetails/{{id}}
+
+    @GetMapping("patronDetails/{id}")
+    public String showPatronDetails(@PathVariable String id, Model model, Principal principal) {
+        ResponseEntity<ApiResponse<PatronDto.DetailedResponse>> response = patronService.getPatronById(id, principal);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("patron", response.getBody().getData());
+            return "patronDetails";
+        } else {
+            // handle error
+            model.addAttribute("errorMessage", "An error occurred: " + response.getBody().getMessage());
+            return "errorPage";
         }
     }
 
