@@ -83,7 +83,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/lms/v1/auth/**", "/").permitAll()
+                .requestMatchers("/lms/v1/auth/**", "/lms/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();

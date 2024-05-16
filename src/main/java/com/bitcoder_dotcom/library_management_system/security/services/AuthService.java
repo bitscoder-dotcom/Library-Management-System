@@ -12,6 +12,8 @@ import com.bitcoder_dotcom.library_management_system.repository.PatronRepository
 import com.bitcoder_dotcom.library_management_system.repository.RoleRepository;
 import com.bitcoder_dotcom.library_management_system.repository.UserRepository;
 import com.bitcoder_dotcom.library_management_system.security.jwt.JwtUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -142,6 +145,12 @@ public class AuthService {
             throw new BadCredentialsException("Invalid email or password");
         }
     }
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
+        securityContextLogoutHandler.logout(request, response, null);
+    }
+
 
     public <T> ResponseEntity<ApiResponse<T>> createSuccessResponse(String message, T data) {
         return ResponseEntity.ok(new ApiResponse<>(

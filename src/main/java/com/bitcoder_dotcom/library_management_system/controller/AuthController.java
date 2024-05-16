@@ -5,6 +5,7 @@ import com.bitcoder_dotcom.library_management_system.dto.SignInRequest;
 import com.bitcoder_dotcom.library_management_system.dto.UserRegistrationRequest;
 import com.bitcoder_dotcom.library_management_system.security.services.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,5 +65,11 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("error", Objects.requireNonNull(apiResponse.getBody()).getMessage());
             return "redirect:error";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        authService.logout(request, response);
+        return "redirect:/lms/";
     }
 }
